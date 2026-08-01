@@ -95,4 +95,4 @@ curl -X DELETE http://localhost:8080/api/expenses/1
 6. Run the tests: right-click the `tests` folder (or an individual test
    class) → `Run As` → `JUnit Test`.
 
-## Project structure
+## Project structure 
