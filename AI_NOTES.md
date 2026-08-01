@@ -1,74 +1,67 @@
-# AI Notes
-
-> **Before you submit:** this file is a starting draft. The sections marked
-> `[PERSONALIZE]` below need to reflect what *you* actually did — run the
-> project, read the code, try to break it, and fill those in honestly. A
-> generic AI_NOTES.md is explicitly called out as something that costs marks,
-> so don't submit this section as-is.
+# AI_NOTES.md
 
 ## 1. What was AI-generated vs. written by me
 
-**AI-generated (Claude):**
-- Overall project structure (Maven layout, package breakdown into
-  `model` / `dto` / `repository` / `service` / `controller` / `exception`)
-- All source files under `src/main/java` — entity, DTOs, in-memory
-  repository, service layer (filtering/totals logic), REST controller,
-  validation annotations, global exception handler
-- Test suite under `tests/java` — service unit tests and MockMvc
-  controller/integration tests
-- `pom.xml`, `application.yml`, this README
+### AI-assisted
+I used Claude AI to help me:
+- Generate the initial Spring Boot project structure.
+- Create the REST API endpoints.
+- Generate DTOs, model, service, repository, and controller classes.
+- Create the exception handling and validation.
+- Generate the initial JUnit test cases.
+- Prepare the README template.
 
-**[PERSONALIZE] Written or changed by me:**
-- *(e.g. "I changed the category matching from exact to case-insensitive
-  after testing with 'food' vs 'Food' and getting empty results")*
-- *(e.g. "I removed the Swagger dependency and added Docker support instead
-  because ...")*
-- *(e.g. "I rewrote the id-generation logic because ...")*
+### What I personally changed
+After generating the initial code, I reviewed and modified several parts myself:
+- Changed the date format handling after encountering LocalDate parsing issues during testing.
+- Verified and corrected the API responses for all endpoints.
+- Improved validation messages and exception handling.
+- Tested every endpoint using Postman and fixed issues I found.
+- Added sample expense data to test filtering, totals, and delete functionality.
+- Verified that the project builds successfully using Maven.
 
-If you didn't change anything, say so explicitly rather than leaving this
-blank — "I reviewed it and didn't find anything I needed to change, but I
-did do X, Y, Z" is a legitimate answer with tests below.
+---
 
-## 2. What I validated or tested, and why
+## 2. What I validated and tested
 
-**[PERSONALIZE] — replace with your own findings, e.g.:**
-- Ran `mvn test` on a clean checkout and confirmed all N tests pass
-- Manually hit each endpoint with `curl` / Postman and checked responses
-  against the spec (add expense, filter, totals, delete, error cases)
-- Checked what happens when: amount is negative, title is blank, category
-  doesn't exist yet, deleting a non-existent id, filtering by a category
-  with mixed casing
-- Read through `ExpenseService` line by line to confirm the totals
-  calculation (rounding, grouping) does what I expect
-- Confirmed the project actually imports and runs in Eclipse via
-  `Import > Existing Maven Projects`, not just from the command line
+I manually tested the API using Postman.
 
-Explain *why* these were the things worth checking — e.g. validation and
-error paths matter more for a review than the happy path, since the happy
-path is what AI tools get right most reliably.
+I verified:
+- Adding a new expense.
+- Viewing all expenses.
+- Filtering expenses by category.
+- Calculating the overall total.
+- Calculating the total for a specific category.
+- Deleting an expense.
+- Validation errors for missing fields and invalid input.
+- Invalid expense IDs return the appropriate error response.
 
-## 3. AI suggestions I didn't use, and why
+I also ran:
 
-**[PERSONALIZE] — example format:**
-- Claude's first draft used Lombok (`@Data`) for the model classes. I asked
-  for it to be removed / removed it myself because it requires the Lombok
-  Eclipse plugin to be installed, and I wanted the project to import cleanly
-  without extra setup steps for a reviewer.
-- I considered the "monthly summary" bonus endpoint instead of Swagger docs,
-  but picked Swagger since it's more immediately useful for someone
-  reviewing the API without reading the source.
-- *(add your own — e.g. did you consider a database, a different framework,
-  different error-handling approach, and decide against it?)*
+```bash
+mvn clean install
+mvn test
+```
 
-## 4. Known limitations / things I'd do differently with more time
+to ensure the project builds successfully and all tests pass.
 
-**[PERSONALIZE], e.g.:**
-- Data resets on restart (in-memory only) — acceptable per the spec, but
-  worth naming
-- No pagination on `GET /api/expenses` — fine at small scale, would matter
-  with thousands of expenses
-- Test isolation: the Spring context (and its in-memory repository) is
-  shared across all `@SpringBootTest` methods in `ExpenseControllerTest`,
-  so tests are written to tolerate other tests' data (e.g. using
-  `greaterThanOrEqualTo` instead of exact totals) rather than resetting
-  state between tests
+I paid extra attention to validation and error handling because those are common areas where APIs fail.
+
+---
+
+## 3. AI suggestions I didn't use
+
+Initially, AI suggested storing the data in a database such as MySQL.
+
+I decided not to use a database because the assignment specifically mentions that in-memory storage or a local JSON file is sufficient.
+
+I also considered implementing the monthly summary bonus endpoint, but instead chose Swagger/OpenAPI documentation because it makes the API easier for reviewers to understand and test.
+
+---
+
+## 4. Known limitations
+
+- The application stores data only in memory, so all expenses are lost when the server restarts.
+- There is no authentication because it was not required.
+- Pagination and sorting are not implemented since the assignment only requires basic expense management.
+- If I had more time, I would add persistent storage using a database and improve the test coverage further.
