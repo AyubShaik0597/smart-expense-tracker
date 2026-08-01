@@ -3,7 +3,7 @@
 A REST API for tracking personal expenses, built with Java 17 and Spring Boot 3.
 Data is stored in memory (a `ConcurrentHashMap`) — no database required, as
 per the assignment spec.
-
+ 
 ## What it supports
 
 - `POST   /api/expenses` — add an expense (title, amount, category, date)
