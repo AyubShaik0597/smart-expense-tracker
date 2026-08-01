@@ -1,0 +1,12 @@
+target/
+*.class
+*.log
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# OS
+.DS_Store
